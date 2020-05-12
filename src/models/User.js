@@ -8,9 +8,10 @@ const userSchema =new Schema({
         required:true
     },
     password : String,
-    age      : Number,
-    gender   : String,
-    name : String
+    mail      : String,
+    phone   : Number,
+    name : String,
+    seller:Boolean
 })
 
 module.exports = model('Users',userSchema)

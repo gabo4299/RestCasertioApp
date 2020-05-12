@@ -14,6 +14,7 @@ app.use(express.json());
 
 app.use(require('./routes/index'))
 app.use('/api/user',require('./routes/login'))
+app.use('/api/product',require('./routes/productsList'))
 
 
 

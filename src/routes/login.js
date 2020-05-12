@@ -4,15 +4,16 @@ const Users=require('../models/User')
 
 
 
- async function saveUser(username,password,age,gender,name){
+ async function saveUser(username ,password,mail,phone ,name,seller){
     
     var newuser = new Users
     ({
         username : username,
         password : password,
-        age      : age,
-        gender   : gender,
-        name : name
+        mail      : mail,
+        phone   : phone,
+        name : name,
+        seller:seller
     })
 
      const user = await newuser.save()
@@ -40,9 +41,9 @@ async function updateUser(idusername , parameter , newValue)
 {
     var updates;
     switch (parameter){
-        case "username":
+        case "phone":
               
-            updates= await Users.updateOne({username:idusername},{username:newValue})
+            updates= await Users.updateOne({username:idusername},{phone:newValue})
             return updates
             break;
         case "password":
@@ -50,14 +51,14 @@ async function updateUser(idusername , parameter , newValue)
              updates= await Users.updateOne({username:idusername},{password:newValue})
              return updates
             break;
-        case "age":
+        case "mail":
             // console.log("age")    
-             updates= await Users.updateOne({username:idusername},{age:newValue})
+             updates= await Users.updateOne({username:idusername},{mail:newValue})
              return updates
             break;
-        case "gender":
+        case "name":
             // console.log("geder")    
-             updates= await Users.updateOne({username:idusername},{gender:newValue})
+             updates= await Users.updateOne({username:idusername},{name:newValue})
              return updates
             break;
 
@@ -109,12 +110,12 @@ router.get('/:username',(req,res)=>
 })
 router.post('/add',(req,res)=>
 {
-    const {username ,password,age,gender ,name}=req.body;
-    if (username && password && age && gender && name)
+    const {username ,password,mail,phone ,name,seller}=req.body;
+    if (username && password && mail && phone && name &&seller )
     {
         
       
-        saveUser(username,password,age,gender,name)
+        saveUser(username ,password,mail,phone ,name,seller)
         .then(
             user=>
             {console.log(user)
@@ -141,25 +142,10 @@ router.put('/update/:uservar',(req,res)=>
 {
     const {uservar} = req.params
     console.log(req.body)
-     if (req.body["username"])
-     {
-            updateUser(uservar,'username',req.body["username"])
-            .then
-            (
-                updates=>
-                {
-                    //console.log(updates)
-                    res.json(updates)
-                }
-            )
-            .catch
-            (
-                err => (res.json(err))
-            )
-     }
+
      if (req.body["password"])
      {
-            updateUser(uservar,'password',req.body["username"])
+            updateUser(uservar,'password',req.body["password"])
             .then
             (
                 updates=>
@@ -173,9 +159,9 @@ router.put('/update/:uservar',(req,res)=>
                 err => (res.json(err))
             )
      }
-     if (req.body["age"])
+     if (req.body["mail"])
      {
-            updateUser(uservar,'age',req.body["username"])
+            updateUser(uservar,'mail',req.body["mail"])
             .then
             (
                 updates=>
@@ -189,9 +175,9 @@ router.put('/update/:uservar',(req,res)=>
                 err => (res.json(err))
             )
      }
-     if (req.body["gender"])
+     if (req.body["phone"])
      {
-            updateUser(uservar,'gender',req.body["username"])
+            updateUser(uservar,'phone',req.body["phone"])
             .then
             (
                 updates=>
@@ -207,7 +193,7 @@ router.put('/update/:uservar',(req,res)=>
      }
      if (req.body["name"])
      {
-            updateUser(uservar,'username',req.body["username"])
+            updateUser(uservar,'name',req.body["name"])
             .then
             (
                 updates=>
